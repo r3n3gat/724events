@@ -13,8 +13,10 @@ const EventList = () => {
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredEvents = (data?.events || [])
+  // Filter events
+  const filteredAndSortedEvents = (data?.events || [])
     .filter(event => !type || event.type === type)
+    .sort((eventA, eventB) => new Date(eventB.date) - new Date(eventA.date)) // Tri décroissant par date
     .filter((_, index) => (currentPage - 1) * PER_PAGE <= index && PER_PAGE * currentPage > index);
 
   const changeType = (evtType) => {
@@ -38,7 +40,7 @@ const EventList = () => {
             onChange={(value) => changeType(value)}
           />
           <div id="events" className="ListContainer">
-            {filteredEvents.map((event) => (
+            {filteredAndSortedEvents.map((event) => (
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
                   <EventCard
