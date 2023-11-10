@@ -13,8 +13,9 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
-  return <>
+  const {data} = useData()
+  const LastData = data?.events[data.events.length - 1] // to retrieve the last prestation
+    return <>
     <header>
       <Menu />
     </header>
@@ -117,12 +118,11 @@ const Page = () => {
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
         <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        />
+            imageSrc={LastData?.cover !== undefined ? LastData.cover : ""}
+            title={LastData?.title !== undefined ? LastData.title : ""}
+            date={new Date(LastData?.date)}
+            small
+            label="boom"        />
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
